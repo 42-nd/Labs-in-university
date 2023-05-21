@@ -1,0 +1,12 @@
+5
+Alpha Beta Gamma Delta Epsilon 
+6
+Alpha Beta 2000
+Beta Epsilon 1500
+Alpha Gamma 300
+Beta Gamma 1300
+Gamma Delta 1000
+Delta Epsilon 3100
+Alpha Epsilon 1230
+1
+Beta

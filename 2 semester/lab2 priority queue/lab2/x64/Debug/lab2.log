@@ -1,0 +1,5 @@
+﻿  main.cpp
+  queue.cpp
+  Generating Code...
+C:\Users\79050\Desktop\Progs\C++\lab2\lab2\queue.cpp(64): warning C4715: 'queue::top': not all control paths return a value
+  lab2.vcxproj -> C:\Users\79050\Desktop\Progs\C++\lab2\x64\Debug\lab2.exe

@@ -1,0 +1,7 @@
+﻿  main.cpp
+C:\Users\79050\Desktop\Progs\C++\sonya_course_project\sonya_course_project\main.cpp(92,21): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Users\79050\Desktop\Progs\C++\sonya_course_project\sonya_course_project\main.cpp(93,21): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Users\79050\Desktop\Progs\C++\sonya_course_project\sonya_course_project\main.cpp(110,24): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Users\79050\Desktop\Progs\C++\sonya_course_project\sonya_course_project\main.cpp(114,17): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Users\79050\Desktop\Progs\C++\sonya_course_project\sonya_course_project\main.cpp(115,17): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+  sonya_course_project.vcxproj -> C:\Users\79050\Desktop\Progs\C++\sonya_course_project\x64\Debug\sonya_course_project.exe
