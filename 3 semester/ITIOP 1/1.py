@@ -38,7 +38,7 @@ def r_mul(num1, num2, r):
     return decimal_to_r(nums_prod, r)
 
 
-num1 = '160.A'
-num2 = 'D2.4'
-r = 16
-print(r_sum(num1,num2,r))
+with open('test.txt') as f:
+    for i in f:
+        line = i.readline()
+        print(line)
