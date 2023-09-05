@@ -134,7 +134,7 @@ int main(int argc, char **argv)
     while (total_time < time_stop)
     {
         cout << "Time for vector N = " << n << endl;
-        total_time += measure_time_list_and_vector(container_vector, n);
+        total_time = measure_time_list_and_vector(container_vector, n);
         cout << "---------------------------------------------" << endl;
         n *= size_multiplicator;
     }
@@ -144,7 +144,7 @@ int main(int argc, char **argv)
     while (total_time < time_stop)
     {
         cout << "Time for list N = " << n << endl;
-        total_time += measure_time_list_and_vector(container_list, n);
+        total_time = measure_time_list_and_vector(container_list, n);
         cout << "---------------------------------------------" << endl;
         n *= size_multiplicator;
     }
@@ -154,7 +154,7 @@ int main(int argc, char **argv)
     while (total_time < time_stop)
     {
         cout << "Time for set N = " << n << endl;
-        total_time += measure_time_set_and_unordered_set(container_set, n);
+        total_time = measure_time_set_and_unordered_set(container_set, n);
         cout << "---------------------------------------------" << endl;
         n *= size_multiplicator;
     }
@@ -164,9 +164,8 @@ int main(int argc, char **argv)
     while (total_time < time_stop)
     {
         cout << "Time for unordered_set N = " << n << endl;
-        total_time += measure_time_set_and_unordered_set(container_unordered_set, n);
+        total_time = measure_time_set_and_unordered_set(container_unordered_set, n);
         cout << "---------------------------------------------" << endl;
         n *= size_multiplicator;
-        // Увеличиваем размер вдвое на каждой итерации
     }
 }

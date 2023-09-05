@@ -16,6 +16,8 @@ TEST_CASE("Empty array")
     const std::vector<int> data = {};
     CHECK_FALSE(has_duplicates(data));
     CHECK(sorted(get_duplicates(data)) == std::vector<int>{});
+    CHECK_FALSE(slow_has_duplicates(data));
+    CHECK(sorted(slow_get_duplicates(data)) == std::vector<int>{});
 }
 
 TEST_CASE("Single element")
@@ -23,6 +25,8 @@ TEST_CASE("Single element")
     const std::vector<int> data = {1};
     CHECK_FALSE(has_duplicates(data));
     CHECK(sorted(get_duplicates(data)) == std::vector<int>{});
+    CHECK_FALSE(slow_has_duplicates(data));
+    CHECK(sorted(slow_get_duplicates(data)) == std::vector<int>{});
 }
 
 TEST_CASE("Many elements")
@@ -30,6 +34,8 @@ TEST_CASE("Many elements")
     const std::vector<int> data = {2, 1, -4, 7};
     CHECK_FALSE(has_duplicates(data));
     CHECK(sorted(get_duplicates(data)) == std::vector<int>{});
+    CHECK_FALSE(slow_has_duplicates(data));
+    CHECK(sorted(slow_get_duplicates(data)) == std::vector<int>{});
 }
 
 TEST_CASE("Many elements, one duplicate")
@@ -37,6 +43,8 @@ TEST_CASE("Many elements, one duplicate")
     const std::vector<int> data = {2, -3, 0, 2, 7, 1};
     CHECK(has_duplicates(data));
     CHECK(sorted(get_duplicates(data)) == std::vector<int>{2});
+    CHECK(slow_has_duplicates(data));
+    CHECK(sorted(slow_get_duplicates(data)) == std::vector<int>{2});
 }
 
 TEST_CASE("Many elements, many duplicates")
@@ -44,6 +52,8 @@ TEST_CASE("Many elements, many duplicates")
     const std::vector<int> data = {2, -3, 0, 2, 1, -3, 4, 1, -1, 2};
     CHECK(has_duplicates(data));
     CHECK(sorted(get_duplicates(data)) == std::vector<int>{-3, 1, 2});
+    CHECK(slow_has_duplicates(data));
+    CHECK(sorted(slow_get_duplicates(data)) == std::vector<int>{-3, 1, 2});
 }
 
 TEST_CASE("Single duplicated elem")
@@ -51,4 +61,7 @@ TEST_CASE("Single duplicated elem")
     const std::vector<int> data = {4, 4, 4, 4};
     CHECK(has_duplicates(data));
     CHECK(sorted(get_duplicates(data)) == std::vector<int>{4});
+    CHECK(slow_has_duplicates(data));
+    CHECK(sorted(slow_get_duplicates(data)) == std::vector<int>{4});
+
 }
