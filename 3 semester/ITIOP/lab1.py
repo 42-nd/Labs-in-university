@@ -68,5 +68,5 @@ def r_sub(num1, num2, r):
 num1 = "100010000.111"
 num2 = "11010110.101"
 base = 2
-print(r_sum(num1,num2,base),"|",r_sum(num1,num2,base),"|",r_sub(num1,num2,base))
+print(r_sum(num1,num2,base),"|",r_mul(num1,num2,base),"|",r_sub(num1,num2,base))
 n = input()
