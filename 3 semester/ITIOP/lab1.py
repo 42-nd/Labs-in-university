@@ -45,7 +45,6 @@ def r_to_decimal(num, r):
 
 def r_sum(num1, num2, r):
     nums_sum = r_to_decimal(num1, r) + r_to_decimal(num2, r)
-    print(nums_sum)
     return decimal_to_r(nums_sum, r)
 
 
