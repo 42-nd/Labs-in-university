@@ -53,16 +53,20 @@ def r_mul(num1, num2, r):
     nums_prod = r_to_decimal(num1, r) * r_to_decimal(num2, r)
     return decimal_to_r(nums_prod, r)
 
+def r_sub(num1, num2, r):
+    nums_sub = r_to_decimal(num1, r) - r_to_decimal(num2, r)
+    return decimal_to_r(nums_sub, r)
 
-with open('test.txt') as f:
-    lines = [line.rstrip() for line in f]
-    for i in range(5):
-        print(lines[i],"|",decimal_to_r(float(lines[i]),6))
-    for i in range(5,10):
-        num,base = lines[i].split(' ')
-        print(num,base,"|",r_to_decimal(num,int(base)))   
-    print(lines)
-num1,num2,base = input().split()
-base = int(base)
-print(r_sum(num1,num2,base),"|",r_sum(num1,num2,base))
+# with open('test.txt') as f:
+#     lines = [line.rstrip() for line in f]
+#     for i in range(5):
+#         print(lines[i],"|",decimal_to_r(float(lines[i]),6))
+#     for i in range(5,10):
+#         num,base = lines[i].split(' ')
+#         print(num,base,"|",r_to_decimal(num,int(base)))   
+#     print(lines)
+num1 = "100010000.111"
+num2 = "11010110.101"
+base = 2
+print(r_sum(num1,num2,base),"|",r_sum(num1,num2,base),"|",r_sub(num1,num2,base))
 n = input()
