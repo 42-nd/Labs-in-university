@@ -65,3 +65,4 @@ with open('test.txt') as f:
 num1,num2,base = input().split()
 base = int(base)
 print(r_sum(num1,num2,base),"|",r_sum(num1,num2,base))
+n = input()
