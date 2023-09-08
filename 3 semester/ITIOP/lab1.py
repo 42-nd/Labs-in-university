@@ -44,17 +44,22 @@ def r_to_decimal(num, r):
     return res
 
 def r_sum(num1, num2, r):
-    nums_sum = r_to_decimal(num1, r) + r_to_decimal(num2, r)
+    nums_sum = float(r_to_decimal(num1, r) + r_to_decimal(num2, r))
     return decimal_to_r(nums_sum, r)
 
 
 def r_mul(num1, num2, r):
-    nums_prod = r_to_decimal(num1, r) * r_to_decimal(num2, r)
+    nums_prod = float(r_to_decimal(num1, r) * r_to_decimal(num2, r))
     return decimal_to_r(nums_prod, r)
 
 def r_sub(num1, num2, r):
-    nums_sub = r_to_decimal(num1, r) - r_to_decimal(num2, r)
-    return decimal_to_r(nums_sub, r)
+    nums_sub = float(r_to_decimal(num1, r) - r_to_decimal(num2, r))
+    print(nums_sub)
+    if(nums_sub >= 0):
+        return decimal_to_r(nums_sub, r)
+    else:
+        return "-" + decimal_to_r(abs(nums_sub), r)
+    
 
 # with open('test.txt') as f:
 #     lines = [line.rstrip() for line in f]
@@ -64,8 +69,8 @@ def r_sub(num1, num2, r):
 #         num,base = lines[i].split(' ')
 #         print(num,base,"|",r_to_decimal(num,int(base)))   
 #     print(lines)
-num1 = "100010000.111"
-num2 = "11010110.101"
-base = 2
+num1 = "12A"
+num2 = "24B"
+base = 16
+print(r_to_decimal(num1,base),r_to_decimal(num2,base))
 print(r_sum(num1,num2,base),"|",r_mul(num1,num2,base),"|",r_sub(num1,num2,base))
-n = input()
