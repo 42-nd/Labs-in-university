@@ -127,7 +127,7 @@ int main(int argc, char **argv)
     unordered_set<int> container_unordered_set;
 
     double total_time = 0.0;
-    double time_stop = 1.0;
+    double time_stop = 0.3;
     int size_multiplicator = 10;
     int n = 10;
 
@@ -139,33 +139,33 @@ int main(int argc, char **argv)
         n *= size_multiplicator;
     }
 
-    total_time = 0.0;
-    n = 10;
-    while (total_time < time_stop)
-    {
-        cout << "Time for list N = " << n << endl;
-        total_time = measure_time_list_and_vector(container_list, n);
-        cout << "---------------------------------------------" << endl;
-        n *= size_multiplicator;
-    }
+    //     total_time = 0.0;
+    //     n = 10;
+    //     while (total_time < time_stop)
+    //     {
+    //         cout << "Time for list N = " << n << endl;
+    //         total_time = measure_time_list_and_vector(container_list, n);
+    //         cout << "---------------------------------------------" << endl;
+    //         n *= size_multiplicator;
+    //     }
 
-    total_time = 0.0;
-    n = 10;
-    while (total_time < time_stop)
-    {
-        cout << "Time for set N = " << n << endl;
-        total_time = measure_time_set_and_unordered_set(container_set, n);
-        cout << "---------------------------------------------" << endl;
-        n *= size_multiplicator;
-    }
+    //     total_time = 0.0;
+    //     n = 10;
+    //     while (total_time < time_stop)
+    //     {
+    //         cout << "Time for set N = " << n << endl;
+    //         total_time = measure_time_set_and_unordered_set(container_set, n);
+    //         cout << "---------------------------------------------" << endl;
+    //         n *= size_multiplicator;
+    //     }
 
-    total_time = 0.0;
-    n = 10;
-    while (total_time < time_stop)
-    {
-        cout << "Time for unordered_set N = " << n << endl;
-        total_time = measure_time_set_and_unordered_set(container_unordered_set, n);
-        cout << "---------------------------------------------" << endl;
-        n *= size_multiplicator;
+    //     total_time = 0.0;
+    //     n = 10;
+    //     while (total_time < time_stop)
+    //     {
+    //         cout << "Time for unordered_set N = " << n << endl;
+    //         total_time = measure_time_set_and_unordered_set(container_unordered_set, n);
+    //         cout << "---------------------------------------------" << endl;
+    //         n *= size_multiplicator;
+    //     }
     }
-}

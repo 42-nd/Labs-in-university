@@ -69,8 +69,8 @@ def r_sub(num1, num2, r):
 #         num,base = lines[i].split(' ')
 #         print(num,base,"|",r_to_decimal(num,int(base)))   
 #     print(lines)
-num1 = "12A"
-num2 = "24B"
-base = 16
+num1 = "747.6 "
+num2 = "646.3"
+base = 8
 print(r_to_decimal(num1,base),r_to_decimal(num2,base))
 print(r_sum(num1,num2,base),"|",r_mul(num1,num2,base),"|",r_sub(num1,num2,base))

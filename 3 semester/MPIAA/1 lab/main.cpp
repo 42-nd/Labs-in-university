@@ -16,17 +16,16 @@ int main(int argc, char **argv)
     double time_stop = 0.2;
     int size_multiplicator = 10;
     int size = 10;
-
     while (time < time_stop)
     {
         cout << "Time for slow_has_duplicates, N = " << size << endl;
         const auto data = shuffled_sequence(size);
 
         auto t1 = steady_clock::now();
-        slow_has_duplicates(data);
+        bool isdup = slow_has_duplicates(data);
         auto t2 = steady_clock::now();
         time = duration<double>(t2 - t1).count();
-
+        cout << "isdup? " << isdup << endl;
         cout << "Time :" << time << endl;
         cout << "---------------------------------------------" << endl;
         size *= size_multiplicator;
@@ -41,7 +40,7 @@ int main(int argc, char **argv)
         const auto data = shuffled_sequence(size);
 
         auto t1 = steady_clock::now();
-        slow_get_duplicates(data);
+        vector<int> dups = slow_get_duplicates(data);
         auto t2 = steady_clock::now();
         time = duration<double>(t2 - t1).count();
 
@@ -59,10 +58,10 @@ int main(int argc, char **argv)
         const auto data = shuffled_sequence(size);
 
         auto t1 = steady_clock::now();
-        has_duplicates(data);
+        bool isdup = has_duplicates(data);
         auto t2 = steady_clock::now();
         time = duration<double>(t2 - t1).count();
-
+        cout << "isdup? " << isdup << endl;
         cout << "Time :" << time << endl;
         cout << "---------------------------------------------" << endl;
         size *= size_multiplicator;
@@ -77,7 +76,7 @@ int main(int argc, char **argv)
         const auto data = shuffled_sequence(size);
 
         auto t1 = steady_clock::now();
-        get_duplicates(data);
+        vector<int> dups = get_duplicates(data);
         auto t2 = steady_clock::now();
         time = duration<double>(t2 - t1).count();
 
