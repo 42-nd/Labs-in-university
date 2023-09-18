@@ -54,7 +54,6 @@ def r_mul(num1, num2, r):
 
 def r_sub(num1, num2, r):
     nums_sub = float(r_to_decimal(num1, r) - r_to_decimal(num2, r))
-    print(nums_sub)
     if(nums_sub >= 0):
         return decimal_to_r(nums_sub, r)
     else:
@@ -69,8 +68,10 @@ def r_sub(num1, num2, r):
 #         num,base = lines[i].split(' ')
 #         print(num,base,"|",r_to_decimal(num,int(base)))   
 #     print(lines)
-num1 = "747.6 "
-num2 = "646.3"
-base = 8
-print(r_to_decimal(num1,base),r_to_decimal(num2,base))
+#num1 = "747.6 "
+#num2 = "646.3"
+base = 2
+num1 = "100010000.111"
+num2 = "11010110.101"
+#print(r_to_decimal(num1,base),r_to_decimal(num2,base))
 print(r_sum(num1,num2,base),"|",r_mul(num1,num2,base),"|",r_sub(num1,num2,base))

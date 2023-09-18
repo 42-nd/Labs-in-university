@@ -53,60 +53,92 @@ def normalize_number(num_str):
     num_str = num_str[:1] + '.' + num_str[1:]
     return num_str, exponent
 
-def decimal_to_byte(num):
-    decimal_num = decimal_to_r(abs(num),2) # могут быть баги с тем, что недостаточно знаков после запятой!
+def decimal_to_byte_eight(num):
+    decimal_num = decimal_to_r(abs(num),2,46) # могут быть баги с тем, что недостаточно знаков после запятой!
     normalize_num, exponent = normalize_number(decimal_num)
-    offset = decimal_to_r(float(exponent + 1023),2)
+    offset = decimal_to_r(float(exponent + 1023),2,46)
 
     bin_num = str(int(num <= 0)) + offset[:-1] + normalize_num[2:]
-    while len(bin_num) != 32:
+    while len(bin_num)%4 != 0:
         bin_num+='0'
-    fourbyte = bin_num
-    while len(bin_num) != 64:
-        bin_num+='0'
+        
     eightbyte = bin_num
+    
+    hex_comp_eight = hex(int(bin_num,2))[2:].upper() # может быть тоже самое, что в bin отрезает первые нули
+    while len(eightbyte) != 64:
+        eightbyte += '0'
+    while len(hex_comp_eight) != 16:
+        hex_comp_eight += '0'
+    return hex_comp_eight,eightbyte
 
-    hex_comp = hex(int(bin_num,2))[2:].upper() # может быть тоже самое, что в bin отрезает первые нули
-    return hex_comp,eightbyte,fourbyte
+def decimal_to_byte_four(num):
+    decimal_num = decimal_to_r(abs(num),2,16) # могут быть баги с тем, что недостаточно знаков после запятой!
+    normalize_num, exponent = normalize_number(decimal_num)
+    offset = decimal_to_r(float(exponent + 127),2,16)
 
-def byte_to_decimal(num,byte_type):
-    if byte_type == 1:
-        num = hex(int(num,2))[2:].upper()
-    while len(num) != 16:
-       num += num
+    bin_num = str(int(num <= 0)) + offset[:-1] + normalize_num[2:]
+    while len(bin_num)%4 != 0:
+        bin_num+='0'
+    print(bin_num)   
+        
+    eightbyte = bin_num
+    
+    hex_comp_eight = hex(int(bin_num,2))[2:].upper() # может быть тоже самое, что в bin отрезает первые нули
+    while len(eightbyte) != 32:
+        eightbyte += '0'
+        
+    while len(hex_comp_eight) != 8:
+        hex_comp_eight += '0'
+    return hex_comp_eight,eightbyte
 
+def byte_to_decimal_four(num):
+    binary_string = bin(int(num,16))[2:]
+    while len(binary_string) != 32:
+        binary_string = '0' + binary_string
+    sign_bit = int(binary_string[0], 2)
+    exponent_bits = binary_string[1:9]
+    fraction_bits = binary_string[9:]
+    exponent = int(exponent_bits, 2) - 127
+    fraction = 1.0 # мантисса
+
+    for i in range(23):
+        fraction += int(fraction_bits[i], 2) * 2**(-(i + 1))
+    value = (-1)**sign_bit * 2**exponent *r_to_decimal('1.'+fraction_bits,2)
+    return value 
+
+def byte_to_decimal_eight(num):
     binary_string = bin(int(num,16))[2:]
     while len(binary_string) != 64:
         binary_string = '0' + binary_string
     sign_bit = int(binary_string[0], 2)
     exponent_bits = binary_string[1:12]
     fraction_bits = binary_string[12:]
-
-    exponent = int(exponent_bits, 2) - 1023 
-    fraction = 1.0  # Начинаем с мантиссы равной 1
+    exponent = int(exponent_bits, 2) - 1023
+    fraction = 1.0 # мантисса
 
     for i in range(52):
         fraction += int(fraction_bits[i], 2) * 2**(-(i + 1))
     value = (-1)**sign_bit * 2**exponent *r_to_decimal('1.'+fraction_bits,2)
     return value 
 
-num_test = -312.3125
 num1 = -75.5625
 num2 = 483.5
 num3 = -33.0781
 num4 = 223.352
-print(decimal_to_byte(num_test))
-print(decimal_to_byte(num1))
-print(decimal_to_byte(num2))
-print(decimal_to_byte(num3))
-print(decimal_to_byte(num4))
-hex_test = '3FEC600000000000'
+
+print(decimal_to_byte_eight(num1))
+print(decimal_to_byte_eight(num2))
+print(decimal_to_byte_eight(num3))
+print(decimal_to_byte_eight(num4))
+print(decimal_to_byte_four(num1))
+print(decimal_to_byte_four(num2))
+print(decimal_to_byte_four(num3))
+print(decimal_to_byte_four(num4))
 hex_num1 = 'C3F8C800' 
 hex_num2 = '438E5000' 
 hex_num3 = 'C07D83E000000000' 
 hex_num4 = '403F400000000000' 
-print(byte_to_decimal(hex_test,0))
-print(byte_to_decimal(hex_num1,0))
-print(byte_to_decimal(hex_num2,0))
-print(byte_to_decimal(hex_num3,0))
-print(byte_to_decimal(hex_num4,0))
+print(byte_to_decimal_four(hex_num1))
+print(byte_to_decimal_four(hex_num2))
+print(byte_to_decimal_eight(hex_num3))
+print(byte_to_decimal_eight(hex_num4))
