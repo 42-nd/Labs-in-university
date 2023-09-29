@@ -43,19 +43,23 @@ def r_to_decimal(num, r):
                 res += (ord(num[i]) - ord('A') + 10) * (r **(len(num) - i - 1))
     return res
 
-def normalize_number(num_str):
+def normalize_number(num_str, byte_types):
     if '.' not in num_str:
         return num_str, 0
 
     dot_pos = num_str.find('.')
     exponent = dot_pos - 1
+    if byte_types == 1:
+        num_str = num_str[:54]
+    elif byte_types == 0:
+        num_str = num_str[:25]
     num_str = num_str.replace('.','')
     num_str = num_str[:1] + '.' + num_str[1:]
     return num_str, exponent
 
 def decimal_to_byte_eight(num):
-    decimal_num = decimal_to_r(abs(num),2,46) # могут быть баги с тем, что недостаточно знаков после запятой!
-    normalize_num, exponent = normalize_number(decimal_num)
+    decimal_num = decimal_to_r(abs(num),2,64) # могут быть баги с тем, что недостаточно знаков после запятой!
+    normalize_num, exponent = normalize_number(decimal_num,1)
     offset = decimal_to_r(float(exponent + 1023),2,46)
 
     bin_num = str(int(num <= 0)) + offset[:-1] + normalize_num[2:]
@@ -72,15 +76,16 @@ def decimal_to_byte_eight(num):
     return hex_comp_eight,eightbyte
 
 def decimal_to_byte_four(num):
-    decimal_num = decimal_to_r(abs(num),2,17) # могут быть баги с тем, что недостаточно знаков после запятой!
+    decimal_num = decimal_to_r(abs(num),2,32) # могут быть баги с тем, что недостаточно знаков после запятой!
     
-    normalize_num, exponent = normalize_number(decimal_num)
+    normalize_num, exponent = normalize_number(decimal_num,0)
     offset = decimal_to_r(float(exponent + 127),2,16)
     
     bin_num = str(int(num <= 0)) + offset[:-1] + normalize_num[2:]
-    
     while len(bin_num) < 32:
         bin_num+='0'  
+
+    
     fourbyte = bin_num
     
     hex_comp_eight = hex(int(bin_num,2))[2:].upper() # может быть тоже самое, что в bin отрезает первые нули
