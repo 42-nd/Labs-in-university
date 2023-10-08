@@ -1,0 +1,36 @@
+Sub InsertTableWithHeader()
+    Dim doc As Document
+    Set doc = ActiveDocument
+    
+    
+    Dim MyTable As Word.Table
+    Dim TableName As String
+    Dim NumRows As Integer
+    Dim NumColumns As Integer
+    
+    With doc
+        TableName = InputBox("Enter the table name:")
+        NumRows = InputBox("Enter the number of rows:")
+        NumColumns = InputBox("Enter the number of columns:")
+        
+        Dim i As Integer
+        Dim Tables As Integer
+        Tables = doc.Tables.Count + 1
+        .Range.InsertAfter "Table " & Tables & " " & TableName & vbCr
+        i = .Range.Characters.Count - 1
+        .Range(0, i).Style = "Заголовок 1"
+        Set MyTable = .Tables.Add(.Range(i, i), NumRows, NumColumns)
+         
+         
+    End With
+    
+    With MyTable
+        
+        .Borders.OutsideLineStyle = wdLineStyleSingle
+        .Borders.InsideLineStyle = wdLineStyleSingle
+        Dim j As Integer
+        For j = 1 To .Rows.Count
+            .Cell(j, 1).Range.Text = j
+        Next j
+    End With
+End Sub
