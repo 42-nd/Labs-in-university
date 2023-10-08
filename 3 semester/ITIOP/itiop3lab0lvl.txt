@@ -1,0 +1,11 @@
+Sub ReplaceMultiSpaces()
+    Dim doc As Document
+    Set doc = ActiveDocument
+    
+    Dim i As Long
+    For i = doc.Characters.Count To 2 Step -1
+        If doc.Characters(i).Text = " " And doc.Characters(i - 1).Text = " " Then
+            doc.Characters(i).Delete
+        End If
+    Next i
+End Sub
