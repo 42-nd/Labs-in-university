@@ -43,53 +43,73 @@ def r_to_decimal(num, r):
                 res += (ord(num[i]) - ord('A') + 10) * (r **(len(num) - i - 1))
     return res
 
-def normalize_number(num_str, byte_types):
-    if '.' not in num_str:
-        return num_str, 0
+def normalize_number(num, byte_types):
 
-    dot_pos = num_str.find('.')
-    exponent = dot_pos - 1
+    num_str = ""
     if byte_types == 1:
+        num_str = decimal_to_r(abs(num),2,64)
         num_str = num_str[:54]
     elif byte_types == 0:
+        num_str = decimal_to_r(abs(num),2,32)
         num_str = num_str[:25]
+
+    if '.' not in num_str:
+        return num_str, 0
+    
+
+    if str(abs(num))[0] == "0":
+        exponent = str(num_str.find("1"))
+        num_str = "."+num_str[num_str.find("1"):]
+        exponent = "-" + exponent
+    else:
+        exponent = str(num_str.find(".") - 1)
     num_str = num_str.replace('.','')
     num_str = num_str[:1] + '.' + num_str[1:]
-    return num_str, exponent
+
+    return num_str, int(exponent)
+
+def decimal_to_byte_four(num):
+    normalize_num, exponent = normalize_number(num,0)
+    offset = decimal_to_r(float(exponent + 127),2,16)
+
+    if "-" in str(num):
+        bin_num = "1" + offset[:-1] + normalize_num[2:]
+    else:
+        bin_num = "0" + offset[:-1] + normalize_num[2:]
+
+    if str(num)[0] == "0":
+        bin_num = "0" + bin_num
+    while len(bin_num) < 32:
+        bin_num+='0'  
+
+
+    fourbyte = bin_num
+    
+    hex_comp_eight = hex(int(bin_num,2))[2:].upper() # может быть тоже самое, что в bin отрезает первые нули
+    return hex_comp_eight,fourbyte
 
 def decimal_to_byte_eight(num):
-    decimal_num = decimal_to_r(abs(num),2,64) # могут быть баги с тем, что недостаточно знаков после запятой!
-    normalize_num, exponent = normalize_number(decimal_num,1)
+    normalize_num, exponent = normalize_number(num,1)
     offset = decimal_to_r(float(exponent + 1023),2,46)
 
-    bin_num = str(int(num <= 0)) + offset[:-1] + normalize_num[2:]
-    while len(bin_num)%4 != 0:
+    if "-" in str(num):
+        bin_num = "1" + offset[:-1] + normalize_num[2:]
+        if str(num)[1] == "0":
+            bin_num = "0" + bin_num
+    else:
+        bin_num = "0" + offset[:-1] + normalize_num[2:]
+        if str(num)[0] == "0":
+            bin_num = "0" + bin_num
+
+    while len(bin_num)!= 64:
         bin_num+='0'
-        
     eightbyte = bin_num
-    
     hex_comp_eight = hex(int(bin_num,2))[2:].upper() # может быть тоже самое, что в bin отрезает первые нули
     while len(eightbyte) < 64:
         eightbyte += '0'
     while len(hex_comp_eight) < 16:
         hex_comp_eight += '0'
     return hex_comp_eight,eightbyte
-
-def decimal_to_byte_four(num):
-    decimal_num = decimal_to_r(abs(num),2,32) # могут быть баги с тем, что недостаточно знаков после запятой!
-    
-    normalize_num, exponent = normalize_number(decimal_num,0)
-    offset = decimal_to_r(float(exponent + 127),2,16)
-    
-    bin_num = str(int(num <= 0)) + offset[:-1] + normalize_num[2:]
-    while len(bin_num) < 32:
-        bin_num+='0'  
-
-    
-    fourbyte = bin_num
-    
-    hex_comp_eight = hex(int(bin_num,2))[2:].upper() # может быть тоже самое, что в bin отрезает первые нули
-    return hex_comp_eight,fourbyte
 
 def byte_to_decimal_four(num):
     binary_string = bin(int(num,16))[2:]
@@ -117,14 +137,20 @@ num1 = -75.5625
 num2 = 483.5
 num3 = -33.0781
 num4 = 223.352
+num5 = 0.05
+num6 = -0.05
 print(decimal_to_byte_eight(num1))
 print(decimal_to_byte_eight(num2))
 print(decimal_to_byte_eight(num3))
 print(decimal_to_byte_eight(num4))
+print(decimal_to_byte_eight(num5))
+print(decimal_to_byte_eight(num6))
 print(decimal_to_byte_four(num1))
 print(decimal_to_byte_four(num2))
 print(decimal_to_byte_four(num3))
 print(decimal_to_byte_four(num4))
+print(decimal_to_byte_four(num5))
+print(decimal_to_byte_four(num6))
 hex_num1 = 'C3F8C800' 
 hex_num2 = '438E5000' 
 hex_num3 = 'C07D83E000000000' 
