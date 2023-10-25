@@ -1,0 +1,16 @@
+Function CustomSin(x As Double, y As Double, Optional precision As Integer = 121) As Double
+    Dim result As Double
+    Dim i As Integer
+    Dim sign As Integer
+    Dim sum As Double
+    sum = x + y
+    result = sum
+    sign = -1
+    
+    For i = 3 To precision Step 2
+        result = result + sign * ((sum ^ i) / WorksheetFunction.Fact(i))
+        sign = sign * -1
+    Next i
+    
+    CustomSin = result
+End Function

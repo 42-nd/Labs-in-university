@@ -1,0 +1,30 @@
+Sub CreateChart()
+   Dim x1, x2, y1, y2 As Double
+    Dim step_x, step_y As Double
+    Dim Chart_name As String
+    Dim i, j As Integer
+    
+    x1 = InputBox("Введите начальное значение x:")
+    x2 = InputBox("Введите конечное значение x:")
+    y1 = InputBox("Введите начальное значение y:")
+    y2 = InputBox("Введите конечное значение y:")
+    step_x = InputBox("Введите величину шага по x:")
+    step_y = InputBox("Введите величину шага по y:")
+    Chart_name = InputBox("Введите название диаграммы:")
+    
+    For i = 1 To ((x2 - x1) / step_x) + 1
+        For j = 1 To ((y2 - y1) / step_y) + 1
+            Cells(i, j).Value = CustomSin(x1 + (i - 1) * step_x, y1 + (j - 1) * step_y)
+
+        Next j
+    Next i
+    
+    Range(Cells(1, 1), Cells(((x2 - x1) / step_x) + 1, ((y2 - y1) / step_y) + 1)).Select
+    ActiveSheet.Shapes.AddChart2(227, xlSurface).Select
+    With ActiveChart
+        .SetSourceData Source:=Range(Cells(1, 1), Cells(((x2 - x1) / step_x) + 1, ((y2 - y1) / step_y) + 1))
+        .HasTitle = True
+        .chartTitle.Text = Chart_name
+        .HasLegend = False
+    End With
+End Sub
