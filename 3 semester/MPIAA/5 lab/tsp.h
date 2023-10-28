@@ -10,3 +10,4 @@
 std::vector<int> tsp_permutations(const Graph &graph);
 std::vector<int> tsp_branches(const Graph& graph);
 std::vector<int> tsp_greedy(const Graph& G);
+double Length(const std::vector<int>& path, const Graph& graph);

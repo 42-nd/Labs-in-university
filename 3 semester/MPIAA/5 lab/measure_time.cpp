@@ -1,5 +1,6 @@
 #include "measure_time.h"
 #include "tsp.h"
+
 Graph random_graph(int size) {
     Graph graph;
     std::default_random_engine generator;
@@ -40,18 +41,21 @@ void measure_time(const Graph& graph,int N) {
 
         auto t1 = std::chrono::high_resolution_clock::now(); // Record time before executing the algorithm
         std::vector<int> result = tsp_permutations(graph);
+        std::cout << Length(result,graph) << std::endl;
         auto t2 = std::chrono::high_resolution_clock::now(); // Record time after executing the algorithm
         time1 = std::chrono::duration<double>(t2 - t1).count(); // Calculate the time difference
         std::cout << "tsp_permutations: " << "N = " << N << ", " << "time = " << time1 << " seconds" << std::endl;
 
         t1 = std::chrono::high_resolution_clock::now(); // Record time before executing the algorithm
         result = tsp_branches(graph);
+        std::cout << Length(result, graph) << std::endl;
         t2 = std::chrono::high_resolution_clock::now(); // Record time after executing the algorithm
         time1 = std::chrono::duration<double>(t2 - t1).count(); // Calculate the time difference
         std::cout << "tsp_branches: " << "N = " << N << ", " << "time = " << time1 << " seconds" << std::endl;
 
         t1 = std::chrono::high_resolution_clock::now(); // Record time before executing the algorithm
         result = tsp_greedy(graph);
+        std::cout << Length(result, graph) << std::endl;
         t2 = std::chrono::high_resolution_clock::now(); // Record time after executing the algorithm
         time1 = std::chrono::duration<double>(t2 - t1).count(); // Calculate the time difference
         std::cout << "tsp_greedy: " << "N = " << N << ", " << "time = " << time1 << " seconds" << std::endl;
