@@ -1,4 +1,4 @@
-#include"tsp.h"
+#include"tsp_ls.h"
 using namespace std;
 
 double calculate_path_length(const vector<int>& path, const Graph& graph) {
@@ -10,7 +10,7 @@ double calculate_path_length(const vector<int>& path, const Graph& graph) {
     return length;
 }
 
-vector<int> two_opt_swap(const vector<int>& path, int i, int j) {
+vector<int> Transform(const vector<int>& path, int i, int j) {
     vector<int> new_path = path;
     reverse(new_path.begin() + i, new_path.begin() + j + 1);
     return new_path;
@@ -29,7 +29,7 @@ vector<int> TSP_LS(const Graph& graph) {
         for (size_t i = 0; i < current_path.size() - 1; ++i) {
             for (size_t j = i + 1; j < current_path.size(); ++j) {
                 double old_length = calculate_path_length(current_path, graph);
-                vector<int> new_path = two_opt_swap(current_path, i, j);
+                vector<int> new_path = Transform(current_path, i, j);
                 double new_length = calculate_path_length(new_path, graph);
                 if (new_length < old_length) {
                     current_path = new_path;

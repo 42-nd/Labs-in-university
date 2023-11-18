@@ -1,7 +1,7 @@
 #include "graph.h"
 
 #include <stdexcept>
-
+#include <iostream>
 using namespace std;
 
 Graph::Graph(initializer_list<tuple<int, int, double>> edges) {
