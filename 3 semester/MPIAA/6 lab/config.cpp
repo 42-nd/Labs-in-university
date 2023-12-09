@@ -1,8 +1,9 @@
 #include "config.h"
 
-int P = 300;
-int Ne = 30;
-int MaxIt = 200;
-double Pm = 0.5;
+int P = 200;
+int Ne = 100;
+int MaxIt = 350;
+double Pm = 0.3;
 bool informe = false;
 bool display_paths = false;
+bool only_ga = false;

@@ -7,8 +7,7 @@ using namespace std;
 
 
 
-double Random(double a, double b)
-{
+double Random(double a, double b){
     random_device rd;
     mt19937 gen(rd());
     uniform_real_distribution<double> dis(min(a, b), max(a, b)); // Ensure a < b
@@ -21,8 +20,7 @@ double length(const Graph& g, const vector<int>& path){
         return double(INFINITY);
     }
     double result = 0;
-    for (auto i = 0; i < path.size() - 1; ++i)
-    {
+    for (auto i = 0; i < path.size() - 1; ++i){
         result += g.edge_weight(path[i], path[i + 1]);
     }
     result += g.edge_weight(path[0], path[path.size() - 1]);
@@ -33,8 +31,7 @@ vector<int> RandomPath(const Graph& g){
     int start_vertex = 0;
     vector<int> result;
     result.push_back(start_vertex);
-    while (result.size() < g.get_vertices().size())
-    {
+    while (result.size() < g.get_vertices().size()){
         auto u = g.get_adjacent_vertices(result[result.size() - 1]);
         int current_vertex = rand() % u.size();
         if (find(result.begin(), result.end(), u[current_vertex]) == result.end()) {
@@ -47,32 +44,26 @@ vector<int> RandomPath(const Graph& g){
 vector<int> Transform(const vector<int>& path, const int& a, const int& b, const int& c, const int& d){
     vector<int> result;
     result.push_back(path[a]);
-    for (int i = c; i != b; --i)
-    {
+    for (int i = c; i != b; --i){
         result.push_back(path[i]);
     }
     result.push_back(path[b]);
-    for (int i = d; i < path.size(); ++i)
-    {
+    for (int i = d; i < path.size(); ++i){
         result.push_back(path[i]);
     }
-    for (int i = 0; i < a; ++i)
-    {
+    for (int i = 0; i < a; ++i){
         result.push_back(path[i]);
     }
     return result;
 }
 
-vector<int> TwoOptImprove(const Graph& graph, const vector<int>& path)
-{
+vector<int> TwoOptImprove(const Graph& graph, const vector<int>& path){
     if (path.size() <= 3) {
         return path;
     }
 
-    for (int i = 0; i < path.size() - 3; ++i)
-    {
-        for (int j = i + 2; j < path.size() - 1; ++j)
-        {
+    for (int i = 0; i < path.size() - 3; ++i){
+        for (int j = i + 2; j < path.size() - 1; ++j){
             int oldWeight = graph.edge_weight(path[i], path[i + 1]) + graph.edge_weight(path[j], path[j + 1]);
             int newWeight = graph.edge_weight(path[i], path[j]) + graph.edge_weight(path[i + 1], path[j + 1]);
             if (newWeight < oldWeight) {
@@ -91,9 +82,16 @@ vector<int> CrossoverER(const vector<int>& parent1, const vector<int>& parent2) 
     for (int i = 0; i < parent1.size() - 1; ++i) {
         edgeMap[parent1[i]].push_back(parent1[i + 1]);
         edgeMap[parent2[i]].push_back(parent2[i + 1]);
+        edgeMap[parent1[i + 1]].push_back(parent1[i]);
+        edgeMap[parent2[i + 1]].push_back(parent2[i]);
+
     }
     edgeMap[parent1.back()].push_back(parent1[0]);
     edgeMap[parent2.back()].push_back(parent2[0]);
+    edgeMap[parent1[0]].push_back(parent1.back());
+    edgeMap[parent2[0]].push_back(parent2.back());
+
+    auto orig = edgeMap;
 
     vector<int> offspring;
     int currentVertex = parent1[0];
@@ -101,21 +99,36 @@ vector<int> CrossoverER(const vector<int>& parent1, const vector<int>& parent2) 
 
     while (offspring.size() < parent1.size()) {
         vector<int> candidates = edgeMap[currentVertex];
-        edgeMap[currentVertex].clear(); // ”дал€ем ребра, чтобы не использовать их повторно
+        //edgeMap[currentVertex].clear(); // ”дал€ем ребра, чтобы не использовать их повторно
+        
 
-        // ¬ыбираем следующую вершину, у которой минимальное число смежных ребер в карте ребер
-        int nextVertex = candidates[0];
-        int minNumEdges = edgeMap[candidates[0]].size();
-        for (int i = 1; i < candidates.size(); ++i) {
-            int numEdges = edgeMap[candidates[i]].size();
-            if (numEdges < minNumEdges) {
-                minNumEdges = numEdges;
-                nextVertex = candidates[i];
+        if (candidates.empty()) {
+            for (int i : parent1) {
+                if (find(offspring.begin(), offspring.end(), i) == offspring.end()) {
+                    candidates.push_back(i);
+                }
             }
         }
 
-        currentVertex = nextVertex;
-        offspring.push_back(currentVertex);
+        // ¬ыбираем следующую вершину, у которой минимальное число смежных ребер в карте ребер
+        if (!candidates.empty()) {
+            int nextVertex = candidates[0];
+            int minNumEdges = edgeMap[candidates[0]].size();
+            for (int i = 1; i < candidates.size(); ++i) {
+                int numEdges = edgeMap[candidates[i]].size();
+                if (numEdges < minNumEdges) {
+                    minNumEdges = numEdges;
+                    nextVertex = candidates[i];
+                }
+            }
+
+            currentVertex = nextVertex;
+            edgeMap[currentVertex].clear();  // ќчищаем использованный путь из карты
+            /*for (auto& p : edgeMap) {
+                p.second.erase(p.second.begin() + currentVertex);
+            }*/
+            offspring.push_back(currentVertex);
+        }
     }
 
     return offspring;
@@ -161,25 +174,29 @@ vector<int> aligned(const vector<int>& path, int start_vertex) {
 vector<int> TSP_GA(const Graph& g, int P, int N, int MaxIt, double Pm, bool informe){
     vector<vector<int>> population;
 
-    while (population.size() < P)
-    {
+    while (population.size() < P){
         vector<int> path = RandomPath(g);
         if (!path.empty())
             population.push_back(path);
     }
 
-    for (int it = 0; it < MaxIt; ++it)
-    {
+    for (int it = 0; it < MaxIt; ++it) {
         vector<double> weights;
         double totalWeight = 0;
+        double maxL = -1;
+        for (auto& path : population) {
+            if (length(g, path) > maxL) {
+                maxL = length(g, path);
+            }
+        }
 
-        for (auto& path : population){
-            double w = totalWeight - length(g, path);
+        for (auto& path : population) {
+            double w = maxL - length(g, path);
             weights.push_back(w);
             totalWeight += w;
         }
 
-        //    SUS
+        //SUS
         vector<vector<int>> parents;
         double dist = totalWeight / N;
         double start = Random(0, dist);
@@ -217,11 +234,9 @@ vector<int> TSP_GA(const Graph& g, int P, int N, int MaxIt, double Pm, bool info
         if (informe && (it+1) % 10 == 0) {
             double tempbestWeight = length(g, population[0]);
             vector<int> tempbestPath = population[0];
-            for (auto& path : population)
-            {
+            for (auto& path : population){
                 double w = length(g, path);
-                if (w < tempbestWeight)
-                {
+                if (w < tempbestWeight){
                     tempbestWeight = w;
                     tempbestPath = path;
                 }
@@ -238,22 +253,13 @@ vector<int> TSP_GA(const Graph& g, int P, int N, int MaxIt, double Pm, bool info
 
     double bestWeight = length(g, population[0]);
     vector<int> bestPath = population[0];
-    for (auto& path : population)
-    {
+    for (auto& path : population){
         double w = length(g, path);
-        if (w < bestWeight)
-        {
+        if (w < bestWeight){
             bestWeight = w;
             bestPath = path;
         }
-
-
-
     }
-
-
-
-
     return aligned(bestPath, 0);
 }
 

@@ -8,4 +8,5 @@ extern int MaxIt;
 extern double Pm;
 extern bool informe;
 extern bool display_paths;
+extern bool only_ga;
 #endif 
